@@ -1,5 +1,6 @@
 var path = require('path');
 var knex = require('knex')({
+//knex is a SQL query builder for SQL
   client: 'sqlite3',
   connection: {
     filename: path.join(__dirname, '../db/shortly.sqlite')
@@ -40,5 +41,8 @@ db.knex.schema.hasTable('clicks').then(function(exists) {
 // Add additional schema definitions below
 /************************************************************/
 
+//Create 'users' table with username and password (hash and salt as further values)
+
+//Create sessions table with userID, token, and expiration
 
 module.exports = db;

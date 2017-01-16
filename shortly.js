@@ -75,6 +75,14 @@ function(req, res) {
 /************************************************************/
 // Write your authentication routes here
 /************************************************************/
+//Signup - get '/signup'
+        //- post: set to username and password of new user input
+        //find a way to save this user to the server
+//Login: - post '/login'
+        //-post: get username and password and then
+        //authenticate the user using helper function from utility.js
+        //if authenticated, redirect to home page
+        //else, redirect back to the login screen
 
 
 
