@@ -4,7 +4,7 @@ window.Shortly = Backbone.View.extend({
   events: {
     'click li a.index': 'renderIndexView', // All Links
     'click li a.create': 'renderCreateView', // Shorten
-    'click li a.logout': 'redirectLogin' // Log Out
+    // 'click li a.logout': 'redirectLogin' // Log Out
   },
 
   initialize: function() {
@@ -32,14 +32,14 @@ window.Shortly = Backbone.View.extend({
     this.router.navigate('/create', { trigger: true });
   },
 
-  redirectLogin: function(e) {
-    e && e.preventDefault();
-    window.location.replace('/login');
-    // $.get('/login', function(data) {
-    //   // console.log(data);
-    //   $('body').html(data);
-    // });
-  },
+  // redirectLogin: function(e) {
+  //   e && e.preventDefault();
+  //   window.location.replace('/login');
+  //   // $.get('/login', function(data) {
+  //   //   // console.log(data);
+  //   //   $('body').html(data);
+  //   // });
+  // },
 
   updateNav: function(routeName) {
     this.$el.find('.navigation li a')

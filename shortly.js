@@ -3,7 +3,7 @@ var util = require('./lib/utility');
 var partials = require('express-partials');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var morgan = require('morgan');
+// var morgan = require('morgan');
 
 var db = require('./app/config');
 var Users = require('./app/collections/users');
@@ -16,7 +16,7 @@ var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(partials());
 // Parse JSON (uniform resource locators)
 app.use(bodyParser.json());

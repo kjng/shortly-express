@@ -7,6 +7,7 @@ var Users = require('../app/collections/users');
 var User = require('../app/models/user');
 var Links = require('../app/collections/links');
 var Link = require('../app/models/link');
+// var session = require('express-session');
 
 /************************************************************/
 // Mocha doesn't have a way to designate pending before blocks.
@@ -345,5 +346,31 @@ describe('', function() {
     });
 
   }); // 'Account Login'
+
+  describe('Account Log Out: ', function() {
+    var requestWithSession = request.defaults({jar: true});
+
+    beforeEach(function(done) {
+      new User({
+        'username': 'Phillip',
+        'password': 'Phillip'
+      }).save().then(function() {
+        done();
+      });
+    });
+
+    it('Logs out existing user', function(done) {
+      var options = {
+        'method': 'GET',
+        'uri': 'http://127.0.0.1:4568/login',
+      };
+
+      requestWithSession(options, function(error, res, body) {
+        expect(res.req.path).to.equal('/login');
+        done();
+      });
+    });
+
+  });
 
 });
