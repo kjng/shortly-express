@@ -2,8 +2,8 @@ window.Shortly = Backbone.View.extend({
   template: Templates['layout'],
 
   events: {
-    'click li a.index': 'renderIndexView',
-    'click li a.create': 'renderCreateView'
+    'click li a.index': 'renderIndexView', // All Links
+    'click li a.create': 'renderCreateView' // Shorten
   },
 
   initialize: function() {
