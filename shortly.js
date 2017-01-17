@@ -78,12 +78,32 @@ function(req, res) {
 //Signup - get '/signup'
         //- post: set to username and password of new user input
         //find a way to save this user to the server
+app.get('/signup',
+function(req, res) {
+  res.render('signup');
+});
+
+app.post('/signup',
+function(req, res) {
+  console.log(req.body); // {username: 'username', password: 'password'}
+  res.end();
+});
+
 //Login: - post '/login'
         //-post: get username and password and then
         //authenticate the user using helper function from utility.js
         //if authenticated, redirect to home page
         //else, redirect back to the login screen
 
+app.get('/login',
+function(req, res) {
+  res.render('login');
+});
+
+app.post('/login',
+function(req, res) {
+  res.end();
+});
 
 
 /************************************************************/
