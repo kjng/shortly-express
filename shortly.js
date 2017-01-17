@@ -2,7 +2,7 @@ var express = require('express');
 var util = require('./lib/utility');
 var partials = require('express-partials');
 var bodyParser = require('body-parser');
-
+var session = require('express-session');
 
 var db = require('./app/config');
 var Users = require('./app/collections/users');
@@ -21,26 +21,30 @@ app.use(bodyParser.json());
 // Parse forms (signup/login)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use(session({
+  secret: 'michaelCKeViN18FH38#*$%&',
+  resave: false,
+  saveUninitialized: false
+}));
 
-
-app.get('/',
+app.get('/', util.checkUser,
 function(req, res) {
   res.render('index');
 });
 
-app.get('/create',
+app.get('/create', util.checkUser,
 function(req, res) {
   res.render('index');
 });
 
-app.get('/links',
+app.get('/links', util.checkUser,
 function(req, res) {
   Links.reset().fetch().then(function(links) {
     res.status(200).send(links.models);
   });
 });
 
-app.post('/links',
+app.post('/links', util.checkUser,
 function(req, res) {
   var uri = req.body.url;
 
@@ -80,6 +84,7 @@ function(req, res) {
         //find a way to save this user to the server
 app.get('/signup',
 function(req, res) {
+  req.session.loggedIn = false;
   res.render('signup');
 });
 
@@ -111,6 +116,7 @@ function(req, res) {
 
 app.get('/login',
 function(req, res) {
+  req.session.loggedIn = false;
   res.render('login');
 });
 
@@ -122,7 +128,8 @@ function(req, res) {
   util.authenticateUserPass(username, password, function(err, match) {
     if (err) { throw err; } else {
       if (match) {
-        //Set the cookie to indicate that user is logged in, in order to implement checkUs
+        // Add user loggedIn = true to req.session
+        req.session.loggedIn = true;
         res.redirect('/');
       } else {
         res.redirect('/login');
