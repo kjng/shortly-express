@@ -96,7 +96,7 @@ function(req, res) {
     } else {
       Users.create(req.body)
       .then(function(newUser) {
-        res.status(200).send(newUser);
+        res.redirect('/');
       });
     }
   });
@@ -116,7 +116,19 @@ function(req, res) {
 
 app.post('/login',
 function(req, res) {
-  res.end();
+  var username = req.body.username;
+  var password = req.body.password;
+
+  util.authenticateUserPass(username, password, function(err, match) {
+    if (err) { throw err; } else {
+      if (match) {
+        //Set the cookie to indicate that user is logged in, in order to implement checkUs
+        res.redirect('/');
+      } else {
+        res.redirect('/login');
+      }
+    }
+  });
 });
 
 //Authentication function - match username. if username is the same,
