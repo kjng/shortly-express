@@ -86,8 +86,22 @@ function(req, res) {
 app.post('/signup',
 function(req, res) {
   console.log(req.body); // {username: 'username', password: 'password'}
-  res.end();
+  var username = req.body.username;
+  var password = req.body.password;
+  // create new model, see if it's found
+  new User({ username: username }).fetch().then(function(found) {
+    if (found) {
+      res.sendStatus(409);
+      res.end('User found: ' + found.attributes);
+    } else {
+      Users.create(req.body)
+      .then(function(newUser) {
+        res.status(200).send(newUser);
+      });
+    }
+  });
 });
+
 
 //Login: - post '/login'
         //-post: get username and password and then
@@ -105,6 +119,9 @@ function(req, res) {
   res.end();
 });
 
+//Authentication function - match username. if username is the same,
+//match the password. Get the hash from the database and compare to hash of login password
+//if the same, then authenticate the user
 
 /************************************************************/
 // Handle the wildcard route last - if all other routes fail

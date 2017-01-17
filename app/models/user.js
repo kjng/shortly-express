@@ -8,16 +8,21 @@ var User = db.Model.extend({
   hasTimestamps: true,
 
   initialize: function() {
-    this.on('creating', function(model, attrs, options) {
-      // Get pass attribute from model
-      // Hash pass
-      // Set password to hash
+    this.on('creating', this.hashPassword, this);
+  },
+
+  hashPassword: function(model, attrs, options) {
+    // Get pass attribute from model
+    // Hash pass
+    // Set password to hash
+    return new Promise(function(resolve, reject) {
       var salt = bcrypt.genSaltSync();
-      var pass = bcrypt.hash(model.get('password'), salt, function(err, results) {
+      var pass = bcrypt.hash(model.get('password'), salt, function(progess) {}, function(err, hash) {
         if (err) {
-          throw err;
+          reject(err);
         } else {
-          model.set('password', results);
+          model.set('password', hash);
+          resolve(hash);
         }
       });
     });
